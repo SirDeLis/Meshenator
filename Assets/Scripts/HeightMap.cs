@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeightMap : MonoBehaviour
+public class HeightMap
 {
     public float[,] heights;
 
