@@ -8,7 +8,7 @@ public class MeshGenerator : MonoBehaviour
     Mesh mesh;
 
     Vector3[] vertices;
-    float[,] heightmap;
+    HeightMap heightMap = new HeightMap();
     int[] triangles;
     Color[] colors;
 
@@ -23,15 +23,7 @@ public class MeshGenerator : MonoBehaviour
         mesh = new Mesh();
         GetComponent<MeshFilter>().mesh = mesh;
 
-        heightmap = new float[xSize + 1, zSize + 1];
-
-        for (int i = 0, z = 0; z <= zSize; z++)
-        {
-            for (int x = 0; x <= xSize; x++)
-            {
-                heightmap[z, x] = Mathf.PerlinNoise(x * .05f, z * .05f);
-            }
-        }
+        heightMap.heights = heightMap.GenerateHeightmap(xSize, zSize);
 
         CreateShape();
         UpdateMesh();
@@ -45,7 +37,7 @@ public class MeshGenerator : MonoBehaviour
         {
             for (int x = 0; x <= xSize; x++)
             {
-                vertices[i] = new Vector3(x, heightmap[z, x] * maxTerrainHeight, z);
+                vertices[i] = new Vector3(x, heightMap.heights[z, x] * maxTerrainHeight, z);
                 i++;
             }
         }
